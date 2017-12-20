@@ -8,7 +8,7 @@ Ab dann stehen dir folgende Funktionen zur Verfügung.
 
 Beschreibung | Beispiel
 ------------ | -------------
-Zeichne(, , , Dateiname)
+Zeichne(, , , Dateiname) | 2
 Zeichne(, , , Dateiname, xAchse, yAchse)
 Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
 |
