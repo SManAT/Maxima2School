@@ -8,16 +8,18 @@ Ab dann stehen dir folgende Funktionen zur Verfügung.
 
 Beschreibung | Beispiel
 ------------ | -------------
-Zeichne(, , , Dateiname) | 2
-Zeichne(, , , Dateiname, xAchse, yAchse)
-Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
-|
+Zeichne(f(x), x_min, ,x_max, Dateiname) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
+Zeichne(f(x), x_min, ,x_max, Dateiname, xAchse, yAchse) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab, wobei die Achsen beschriftet werden können.
+
+Beispiel | 
+```
 Zeichne(
     cos(2*x),0,4,"Test"
 );
 Zeichne_Label(
     cos(2*x),0,4,"Test","x-Achse","y-Achse"
 );
+```
 
 
 GlSys2(gl1,gl2);
