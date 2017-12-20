@@ -2,16 +2,19 @@
 
 Diese Erweiterung stellt einige brauchbare Funktionen für den Mathematikunterricht zur Verfügung.
 
+## Verwendung
 Kopiere die Datei InitMaxima.mac in das gleiche Verzeichnis wie deine Maxima Datei.
 Als erste Zeile schreibst du batchload("InitMaxima.mac")$. 
 Ab dann stehen dir folgende Funktionen zur Verfügung.
 
-Beschreibung | Beispiel
+## Funktionsliste
+
+Funktion | Beschreibung
 ------------ | -------------
 Zeichne(f(x), x_min, ,x_max, Dateiname) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
 Zeichne(f(x), x_min, ,x_max, Dateiname, xAchse, yAchse) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab, wobei die Achsen beschriftet werden können.
 
-Beispiel | 
+### Beispiel
 ```
 Zeichne(
     cos(2*x),0,4,"Test"
