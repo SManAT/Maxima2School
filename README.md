@@ -9,7 +9,7 @@ Ab dann stehen dir folgende Funktionen zur Verfügung.
 
 ## Funktionsliste
 
-###Zeichnen von Funktionen
+### Zeichnen von Funktionen
 
 Funktion | Beschreibung
 ------------ | -------------
@@ -25,7 +25,7 @@ Zeichne_Label(
     cos(2*x),0,4,"Test","x-Achse","y-Achse"
 );
 ```
-###Gleichungssysteme lösen
+### Gleichungssysteme lösen
 
 Funktion | Beschreibung
 ------------ | -------------
@@ -41,7 +41,7 @@ GlSys2Var(gl1,gl2,x,y);
 > [x=45/7,y=-2/7]
 ```
 
-###Funktion aus zwei Punkten erstellen
+### Funktion aus zwei Punkten erstellen
 
 Funktion | Beschreibung
 ------------ | -------------
