@@ -26,10 +26,12 @@ Zeichne_Label(
 );
 ```
 ###Gleichungssysteme lösen
+
 Funktion | Beschreibung
 ------------ | -------------
 GlSys2(gl1,gl2) | Löst eine Gleichungssystem mit zwei Gleichungen nach x und y auf
 GlSys2Var(gl1,gl2,x,y) | Löst eine Gleichungssystem mit zwei Gleichungen auf, wobei die Variablen angegeben werden können
+
 **Beispiel**
 ```
 gl1: 2*x+3*y=12;
@@ -40,6 +42,7 @@ GlSys2Var(gl1,gl2,x,y);
 ```
 
 ###Funktion aus zwei Punkten erstellen
+
 Funktion | Beschreibung
 ------------ | -------------
 CreateFunktion(p1,p2, f) | Erstellt eine Funktion, die durch zwei Punkte festgelegt werden kann
