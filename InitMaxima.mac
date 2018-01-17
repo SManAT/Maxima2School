@@ -10,68 +10,60 @@ realonly:true$
 fpprintprec: 4$
 
 /* --------------- Zeichnen ----------------------------------------- */
-Zeichne(gl,von,bis,name):=
-block(
-    load(draw),
-    block(
-      if length(gl)=1 then gl: makelist (gl),
-      pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl))
-    ),
-    wxdraw2d(
-        xrange=[0,bis],
-        xaxis=true, yaxis=true,
-        xlabel="x",
-        ylabel="y",
-        pointlist
-    ),
-
-    /* Ausgabe Datei */
-    draw2d(
-        xrange=[0,bis],
-        xaxis=true, yaxis=true,
-        xlabel="x",
-        ylabel="y",
-        grid=true,
-        pointlist,
-        user_preamble = ["
-            set encoding utf8
-            set terminal svg enhanced font \"Helvetica,18\"
-        "],
-        file_name = name,
-        terminal = svg
-    )
+/* testet ob es eine Variable gibt */
+check_Var(test, options):=block(
+    /* make local variables */
+    [a],
+    a:false,
+     /* Key vorhanden, verschieden von false ? */
+    if assoc(test,options ) # false then a:true,
+    return(a)
 )$
 
-Zeichne_Label(gl,von,bis,name,lablex,labley):=
+Zeichne(gl,von,bis,[options]):=
 block(
-    load(draw),
+    /* lokale Variable */
+    [filename,x_lable,y_lable],
+    /* Optionale Parameter laden bzw. setzen */
+    if check_Var(filename, options)=false then filename:"-1"
+    else                                       filename: assoc(filename,options),
+
+    if check_Var(xlable, options)=false then x_lable:"x-Achse"
+    else                                     x_lable: assoc(xlable,options),
+
+    if check_Var(ylable, options)=false then y_lable:"y-Achse"
+    else                                     y_lable: assoc(ylable,options),
+
     block(
       if length(gl)=1 then gl: makelist (gl),
       pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl))
     ),
+
+    load(draw),
     wxdraw2d(
         xrange=[0,bis],
         xaxis=true, yaxis=true,
-        xlabel=lablex,
-        ylabel=labley,
+        xlabel=x_lable,
+        ylabel=y_lable,
         pointlist
     ),
 
     /* Ausgabe Datei */
-    draw2d(
-        xrange=[0,bis],
-        xaxis=true, yaxis=true,
-        xlabel=lablex,
-        ylabel=labley,
-        grid=true,
-        pointlist,
-        user_preamble = ["
-            set encoding utf8
-            set terminal svg enhanced font \"Helvetica,18\"
-        "],
-        file_name = name,
-        terminal = svg
-    )
+    if filename # "-1" then
+        draw2d(
+            xrange=[0,bis],
+            xaxis=true, yaxis=true,
+            xlabel=x_lable,
+            ylabel=y_lable,
+            grid=true,
+            pointlist,
+            user_preamble = ["
+                set encoding utf8
+                set terminal svg enhanced font \"Helvetica,18\"
+            "],
+            file_name = filename,
+            terminal = svg
+        )
 )$
 
 /* --------------- 2dim Gleichungssystem ---------------------------- */

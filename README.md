@@ -13,21 +13,25 @@ Ab dann stehen dir folgende Funktionen zur Verfügung.
 
 Funktion | Beschreibung
 ------------ | -------------
-Zeichne(f(x), x_min, ,x_max, Dateiname) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
-Zeichne(f(x), x_min, ,x_max, Dateiname, xAchse, yAchse) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab, wobei die Achsen beschriftet werden können.
+Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min bis x_max
+Zeichne([f1(x), f2(x)], x_min, ,x_max,
+   filename>"Dateiname",
+   xlable>"x-Achse",
+   ylable>"y-Achse"
+) | Zeichnet die gegebenen Funktionen f1 und f2 und speichert die Grafik sie als SVG Datei (Dateiname.svg) ab, wobei die Achsen beschriftet werden. Die Parameter *filename*, *xlable*, *ylable* müssen korrekt geschrieben sein, ansonsten werden sie nicht akzeptiert.
 
 SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
 **Beispiel**
 ```
+Zeichne(cos(2*x),0,4);
 Zeichne(
-    cos(2*x),0,4,"Test"
+  [cos(2*x), x^3+2x, x], 0,4
 );
-Zeichne(
-    [cos(2*x), x^3+2x, x], 0,4,"Test"
-);
-Zeichne_Label(
-    cos(2*x),0,4,"Test","x-Achse","y-Achse"
+Zeichne_Label( cos(2*x),0,4,
+  filename>"Supergrafik",
+  xlable>"die x-Achse",
+  ylable>"die y-Achse"
 );
 ```
 ### Gleichungssysteme lösen
