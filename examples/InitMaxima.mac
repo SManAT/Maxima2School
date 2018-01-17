@@ -10,11 +10,12 @@ realonly:true$
 fpprintprec: 4$
 
 /* --------------- Zeichnen ----------------------------------------- */
-Zeichne(f,von,bis,name):=
+Zeichne(gl,von,bis,name):=
 block(
     load(draw),
-    pointlist:append(
-        [color=black, line_width=3, explicit(f,x,0,bis)]
+    block(
+      if length(gl)=1 then gl: makelist (gl),
+      pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl))
     ),
     wxdraw2d(
         xrange=[0,bis],
@@ -41,11 +42,12 @@ block(
     )
 )$
 
-Zeichne_Label(f,von,bis,name,lablex,labley):=
+Zeichne_Label(gl,von,bis,name,lablex,labley):=
 block(
     load(draw),
-    pointlist:append(
-        [color=black, line_width=3, explicit(f,x,0,bis)]
+    block(
+      if length(gl)=1 then gl: makelist (gl),
+      pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl))
     ),
     wxdraw2d(
         xrange=[0,bis],

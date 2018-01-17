@@ -16,12 +16,15 @@ Funktion | Beschreibung
 Zeichne(f(x), x_min, ,x_max, Dateiname) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab.
 Zeichne(f(x), x_min, ,x_max, Dateiname, xAchse, yAchse) | Zeichnet die gegebene Funktion und speichert sie als SVG Datei ab, wobei die Achsen beschriftet werden können.
 
-SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen. 
+SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
 **Beispiel**
 ```
 Zeichne(
     cos(2*x),0,4,"Test"
+);
+Zeichne(
+    [cos(2*x), x^3+2x, x], 0,4,"Test"
 );
 Zeichne_Label(
     cos(2*x),0,4,"Test","x-Achse","y-Achse"
