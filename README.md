@@ -14,7 +14,7 @@ Ab dann stehen dir folgende Funktionen zur Verfügung.
 Funktion | Beschreibung
 ------------ | -------------
 Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min bis x_max
-Zeichne([f1(x), f2(x)], x_min, ,x_max,<br>
+Zeichne([f1(x), f2(x)], x_min, ,x_max,<br />
    filename>"Dateiname",<br>
    xlable>"x-Achse",<br>
    ylable>"y-Achse"<br>
