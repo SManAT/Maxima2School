@@ -11,3 +11,7 @@ Thumbs.db
 # Libre Office #
 ######################
 *.odt#
+
+# Maxima Work Files #
+######################git
+Work.wxmx
