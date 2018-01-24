@@ -34,10 +34,13 @@ block(
     if check_Var(ylable, options)=false then y_lable:"y-Achse"
     else                                     y_lable: assoc(ylable,options),
 
+    /* Liste? */
+    if listp(gl) then
     block(
-      if length(gl)=1 then gl: makelist (gl),
-      pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl))
-    ),
+       if length(gl)=1 then gl: makelist (gl)
+    ) else
+       gl: makelist (gl),
+    pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl)),
 
     load(draw),
     wxdraw2d(
