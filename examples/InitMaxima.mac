@@ -23,16 +23,16 @@ check_Var(test, options):=block(
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_lable,y_lable],
+    [filename,x_label,y_label],
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then filename:"-1"
     else                                       filename: assoc(filename,options),
 
-    if check_Var(xlable, options)=false then x_lable:"x-Achse"
-    else                                     x_lable: assoc(xlable,options),
+    if check_Var(xlabel, options)=false then x_label:"x-Achse"
+    else                                     x_label: assoc(xlabel,options),
 
-    if check_Var(ylable, options)=false then y_lable:"y-Achse"
-    else                                     y_lable: assoc(ylable,options),
+    if check_Var(ylabel, options)=false then y_label:"y-Achse"
+    else                                     y_label: assoc(ylabel,options),
 
     /* Liste? */
     if listp(gl) then
@@ -44,20 +44,20 @@ block(
 
     load(draw),
     wxdraw2d(
-        xrange=[0,bis],
+        xrange=[von,bis],
         xaxis=true, yaxis=true,
-        xlabel=x_lable,
-        ylabel=y_lable,
+        xlabel=x_label,
+        ylabel=y_label,
         pointlist
     ),
 
     /* Ausgabe Datei */
     if filename # "-1" then
         draw2d(
-            xrange=[0,bis],
+            xrange=[von,bis],
             xaxis=true, yaxis=true,
-            xlabel=x_lable,
-            ylabel=y_lable,
+            xlabel=x_label,
+            ylabel=y_label,
             grid=true,
             pointlist,
             user_preamble = ["
