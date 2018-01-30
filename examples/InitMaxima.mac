@@ -34,6 +34,11 @@ block(
     if check_Var(ylabel, options)=false then y_label:"y-Achse"
     else                                     y_label: assoc(ylabel,options),
 
+    if check_Var(title, options)=false then  thetitle:""
+    else                                     thetitle: assoc(title,options),
+    if check_Var(titel, options)=false then  thetitle:""
+    else                                     thetitle: assoc(titel,options),
+
     /* Liste? */
     if listp(gl) then
     block(
@@ -48,6 +53,7 @@ block(
         xaxis=true, yaxis=true,
         xlabel=x_label,
         ylabel=y_label,
+        title=thetitle,
         pointlist
     ),
 
@@ -58,6 +64,7 @@ block(
             xaxis=true, yaxis=true,
             xlabel=x_label,
             ylabel=y_label,
+            title=thetitle,
             grid=true,
             pointlist,
             user_preamble = ["
