@@ -39,6 +39,9 @@ block(
     if check_Var(titel, options)=false then  thetitle:""
     else                                     thetitle: assoc(titel,options),
 
+    if check_Var(y, options)=false then  they: auto
+    else                                 they: assoc(y,options),
+
     /* Liste? */
     if listp(gl) then
     block(
@@ -50,6 +53,7 @@ block(
     load(draw),
     wxdraw2d(
         xrange=[von,bis],
+        yrange=they,
         xaxis=true, yaxis=true,
         xlabel=x_label,
         ylabel=y_label,
@@ -61,6 +65,7 @@ block(
     if filename # "-1" then
         draw2d(
             xrange=[von,bis],
+            yrange=they,
             xaxis=true, yaxis=true,
             xlabel=x_label,
             ylabel=y_label,
