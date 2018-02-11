@@ -16,6 +16,8 @@ Funktion | Beschreibung
 Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min bis x_max |
 Zeichne([f1(x), f2(x)], x_min, ,x_max,<br>&nbsp;&nbsp;&nbsp;y>[ymin,ymax]<br>&nbsp;&nbsp;&nbsp;filename>"Dateiname",<br>&nbsp;&nbsp;&nbsp;xlabel>"x-Achse",<br>&nbsp;&nbsp;&nbsp;ylabel>"y-Achse"<br>&nbsp;&nbsp;&nbsp;titel>"Mein Titel"<br>) | Zeichnet die gegebenen Funktionen f1 und f2 und speichert die Grafik sie als SVG Datei (Dateiname.svg) ab, wobei die Achsen beschriftet werden. Die Parameter (*filename*, *xlabel*, *ylabel*, etc) müssen korrekt geschrieben sein, ansonsten werden sie nicht akzeptiert.<br>Es können beliebig viele Funktionen in einer Liste zusammengefasst werden.|
 
+ZeichnePunkte() | funktioniert wir die obigen Befehle, nur werden Punkte gezeichnet.
+
 SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
 **Beispiel**
@@ -28,6 +30,16 @@ Zeichne_Label( cos(2*x),0,4,
   filename>"Supergrafik",
   xlabel>"die x-Achse",
   ylabel>"die y-Achse"
+);
+
+Punkte:[ [0, 0], [0.5, 2.5], [1, 5], [1.5, 7.5], [2, 10], [2.5, 12.5] ];
+
+pointlist:append(
+    [color=blue, point_size=1.5,point_type=7, points_joined=true, points(Punkte)]
+) $
+ZeichnePunkte(pointlist, 0, 3,
+    xlabel> "Zeit [s]",
+    ylabel> "Weg [m]"
 );
 ```
 ### Gleichungssysteme lösen

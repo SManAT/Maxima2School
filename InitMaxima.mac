@@ -20,6 +20,39 @@ check_Var(test, options):=block(
     return(a)
 )$
 
+/* private function */
+plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename):=block(
+  load(draw),
+  wxdraw2d(
+    xrange=[von,bis],
+    yrange=they,
+    xaxis=true, yaxis=true,
+    xlabel=x_label,
+    ylabel=y_label,
+    title=thetitle,
+    pointlist
+ ),
+
+ /* Ausgabe Datei */
+ if filename # "-1" then
+    draw2d(
+        xrange=[von,bis],
+        yrange=they,
+        xaxis=true, yaxis=true,
+        xlabel=x_label,
+        ylabel=y_label,
+        title=thetitle,
+        grid=true,
+        pointlist,
+        user_preamble = ["
+            set encoding utf8
+            set terminal svg enhanced font \"Helvetica,18\"
+        "],
+        file_name = filename,
+        terminal = svg
+    )
+)$
+
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
@@ -50,36 +83,42 @@ block(
        gl: makelist (gl),
     pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl)),
 
-    load(draw),
-    wxdraw2d(
-        xrange=[von,bis],
-        yrange=they,
-        xaxis=true, yaxis=true,
-        xlabel=x_label,
-        ylabel=y_label,
-        title=thetitle,
-        pointlist
-    ),
-
-    /* Ausgabe Datei */
-    if filename # "-1" then
-        draw2d(
-            xrange=[von,bis],
-            yrange=they,
-            xaxis=true, yaxis=true,
-            xlabel=x_label,
-            ylabel=y_label,
-            title=thetitle,
-            grid=true,
-            pointlist,
-            user_preamble = ["
-                set encoding utf8
-                set terminal svg enhanced font \"Helvetica,18\"
-            "],
-            file_name = filename,
-            terminal = svg
-        )
+    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename)
 )$
+
+ZeichnePunkte(gl,von,bis,[options]):=
+block(
+    /* lokale Variable */
+    [filename,x_label,y_label],
+    /* Optionale Parameter laden bzw. setzen */
+    if check_Var(filename, options)=false then filename:"-1"
+    else                                       filename: assoc(filename,options),
+
+    if check_Var(xlabel, options)=false then x_label:"x-Achse"
+    else                                     x_label: assoc(xlabel,options),
+
+    if check_Var(ylabel, options)=false then y_label:"y-Achse"
+    else                                     y_label: assoc(ylabel,options),
+
+    if check_Var(title, options)=false then  thetitle:""
+    else                                     thetitle: assoc(title,options),
+    if check_Var(titel, options)=false then  thetitle:""
+    else                                     thetitle: assoc(titel,options),
+
+    if check_Var(y, options)=false then  they: auto
+    else                                 they: assoc(y,options),
+
+    /* Liste? */
+    if listp(gl) then
+    block(
+       if length(gl)=1 then gl: makelist (gl)
+    ) else
+       gl: makelist (gl),
+    pointlist: gl,
+
+    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename)
+)$
+
 
 /* --------------- 2dim Gleichungssystem ---------------------------- */
 GlSys2(gl1,gl2):=block(
