@@ -8,6 +8,9 @@ kill(all)$
 ratprint: false$
 realonly:true$
 fpprintprec: 4$
+debug:false$
+keepfloat:true$
+(setf *debugger-hook* nil)$
 
 /* --------------- Zeichnen ----------------------------------------- */
 /* testet ob es eine Variable gibt */
@@ -35,7 +38,7 @@ plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename):=block(
 
  /* Ausgabe Datei */
  if filename # "-1" then
-    draw2d(
+      draw2d(
         xrange=[von,bis],
         yrange=they,
         xaxis=true, yaxis=true,
@@ -50,17 +53,16 @@ plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename):=block(
         "],
         file_name = filename,
         terminal = svg
-    )
+      )
 )$
 
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_label,y_label],
+    [filename,x_label,y_label,thepath,they,thetitle],
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then filename:"-1"
     else                                       filename: assoc(filename,options),
-
     if check_Var(xlabel, options)=false then x_label:"x-Achse"
     else                                     x_label: assoc(xlabel,options),
 
@@ -69,8 +71,6 @@ block(
 
     if check_Var(title, options)=false then  thetitle:""
     else                                     thetitle: assoc(title,options),
-    if check_Var(titel, options)=false then  thetitle:""
-    else                                     thetitle: assoc(titel,options),
 
     if check_Var(y, options)=false then  they: auto
     else                                 they: assoc(y,options),
@@ -81,7 +81,7 @@ block(
        if length(gl)=1 then gl: makelist (gl)
     ) else
        gl: makelist (gl),
-    pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,0,bis)], i, length(gl)),
+    pointlist: makelist ([color=black, line_width=3, explicit(gl[i],x,von,bis)], i, length(gl)),
 
     plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename)
 )$
@@ -89,7 +89,7 @@ block(
 ZeichnePunkte(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_label,y_label],
+    [filename,x_label,y_label,thepath,they,thetitle],
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then filename:"-1"
     else                                       filename: assoc(filename,options),
@@ -102,8 +102,6 @@ block(
 
     if check_Var(title, options)=false then  thetitle:""
     else                                     thetitle: assoc(title,options),
-    if check_Var(titel, options)=false then  thetitle:""
-    else                                     thetitle: assoc(titel,options),
 
     if check_Var(y, options)=false then  they: auto
     else                                 they: assoc(y,options),
