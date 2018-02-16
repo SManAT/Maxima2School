@@ -117,15 +117,28 @@ block(
     plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename)
 )$
 
+/* --------------- CSV ---------------------------- */
+ReadCSV(filename,[options]):=block(
+    [s,M,i,tseparator,tskip,tS],
+    if check_Var(separator, options)=false then tS: 'semicolon
+    else block(
+        tseparator: assoc(separator,options),
+        if tseparator="," then tS: 'comma,
+        if tseparator="|" then tS: 'pipe,
+        if tseparator=";" then tS: 'semicolon,
+        if tseparator=" " then tS: 'space
+    ),
 
-/* --------------- 2dim Gleichungssystem ---------------------------- */
-GlSys2(gl1,gl2):=block(
-    erg_solve: solve([gl1,gl2], [x,y]),
-    return (first(erg_solve))
-)$
-GlSys2Var(gl1,gl2,a,b):=block(
-    erg_solve: solve([gl1,gl2], [a,b]),
-    return (first(erg_solve))
+    if check_Var(skip, options)=false then tskip: 0
+    else                                   tskip: assoc(skip,options),
+
+    s : openr(filename),
+    /* skip lines */
+    for i: 0 while  i<tskip do readline(s),
+    /* read the following (comma-separated) lines into matrix M */
+    M : read_matrix(s, tS),
+    close(s),
+    return(M)
 )$
 
 /* --------------- Funktion aufstellen ------------------------------- */

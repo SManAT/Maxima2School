@@ -15,7 +15,7 @@ Funktion | Beschreibung
 ------------ | -------------
 Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min bis x_max |
 Zeichne([f1(x), f2(x)], x_min, ,x_max,<br>&nbsp;&nbsp;&nbsp;y>[ymin,ymax]<br>&nbsp;&nbsp;&nbsp;filename>"Dateiname",<br>&nbsp;&nbsp;&nbsp;xlabel>"x-Achse",<br>&nbsp;&nbsp;&nbsp;ylabel>"y-Achse"<br>&nbsp;&nbsp;&nbsp;titel>"Mein Titel"<br>) | Zeichnet die gegebenen Funktionen f1 und f2 und speichert die Grafik sie als SVG Datei (Dateiname.svg) ab, wobei die Achsen beschriftet werden. Die Parameter (*filename*, *xlabel*, *ylabel*, etc) müssen korrekt geschrieben sein, ansonsten werden sie nicht akzeptiert.<br>Es können beliebig viele Funktionen in einer Liste zusammengefasst werden.|
-ZeichnePunkte() | funktioniert wir die obigen Befehle, nur werden Punkte gezeichnet.|
+ZeichnePunkte() | funktioniert wir die obigen Befehle, nur werden Punkte gezeichnet.<br>append() … Damit können mehrere Punktlisten erstellt werden|
 
 SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
@@ -41,20 +41,24 @@ ZeichnePunkte(pointlist, 0, 3,
     ylabel> "Weg [m]"
 );
 ```
-### Gleichungssysteme lösen
+### CSV Dateien
 
 Funktion | Beschreibung
 ------------ | -------------
-GlSys2(gl1,gl2) | Löst eine Gleichungssystem mit zwei Gleichungen nach x und y auf
-GlSys2Var(gl1,gl2,x,y) | Löst eine Gleichungssystem mit zwei Gleichungen auf, wobei die Variablen angegeben werden können
+ReadCSV(filename,[options]) | Liest eine CSV Datei ein und gibt eine Matrix zurück<br>separator ist ohne Angabe ein ;<br>skip gibt an, wie viele Zeilen übersprungen werdenf
 
 **Beispiel**
 ```
-gl1: 2*x+3*y=12;
-gl2: 2*x-4*y=14;
-GlSys2(gl1,gl2);
-GlSys2Var(gl1,gl2,x,y);
-> [x=45/7,y=-2/7]
+M: ReadCSV("filename.csv",
+    separator>",",
+    skip>1
+);
+/* Spalten zu Zeilen */
+MM: args(transpose(M))$
+/* points als [x1,x2,...], [y1,y2,...] */
+pointlist:append(
+    [key = "Small points", color=blue, point_size=0,point_type=7, points_joined=true, points(MM[1], MM[2])]
+) $
 ```
 
 ### Funktion aus zwei Punkten erstellen
