@@ -45,7 +45,7 @@ ZeichnePunkte(pointlist, 0, 3,
 
 Funktion | Beschreibung
 ------------ | -------------
-ReadCSV(filename,[options]) | Liest eine CSV Datei ein und gibt eine Matrix zurück<br>separator ist ohne Angabe ein ;<br>skip gibt an, wie viele Zeilen übersprungen werdenf
+ReadCSV(filename,[options]) | Liest eine CSV Datei ein und gibt eine Matrix zurück<br>separator ist ohne Angabe ein *;*<br>skip gibt an, wie viele Zeilen übersprungen werden
 
 **Beispiel**
 ```
