@@ -6,7 +6,7 @@ Lesen aus CSV Dateien
 
 
 /* [wxMaxima: input   start ] */
-batchload("InitMaxima.mac")$
+batchload("../../InitMaxima.mac");
 filename: "Werte.csv"$
 /* [wxMaxima: input   end   ] */
 
