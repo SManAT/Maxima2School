@@ -86,7 +86,14 @@ block(
       /* alle Farben sw machen */
       tcolors: makelist (black, i, length(gl))
     )
-    else tcolors: assoc(colors,options),
+    else block(
+      tcolors: assoc(colors,options),
+      /* bis zum Ende schwarz machen */
+      if(length(tcolors)<length(gl)) then block(
+        blacklist: makelist ("black", i, length(tcolors), length(gl)-length(tcolors)+1),
+        tcolors: append(tcolors, blacklist)
+      )
+    ),
 
     pointlist: makelist ([color=tcolors[i], line_width=3, explicit(gl[i],x,von,bis)], i, length(gl)),
 
