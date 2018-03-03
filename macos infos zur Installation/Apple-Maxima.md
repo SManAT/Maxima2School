@@ -2,15 +2,13 @@ Mit MacOSX hat man mit wxmaxima das Problem, dass gnuplot (=grafische Ausgabe) n
 Diese Anleitung sollte zum Erfolg f�hren, und wurde auf High Sierra getestet.
 Ein Nachteil ist, das man Xcode installieren muss (~6GB) obwohl man es nicht ben�tigt.
 
-*Schritte*
+#Schritte
 
-    1. AppStore installiere Xcode
-
-    2. Terminal
-           sudo xcode-select -s /Applications/Xcode.app/Contens/Developer
-
-    3. Terminal
-xcode-select �install
+- AppStore installiere Xcode
+- Terminal
+  *sudo xcode-select -s /Applications/Xcode.app/Contens/Developer*
+- Terminal
+  *xcode-select --install*
 
     4. Terminal, Homebrew Package Manager installieren
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
