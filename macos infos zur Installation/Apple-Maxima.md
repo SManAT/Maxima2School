@@ -14,10 +14,10 @@ Ein Nachteil ist, das man Xcode installieren muss (~6GB) obwohl man es nicht ben
   */usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"*
 
 - Terminal<br>
-```brew install gnuplot �-with-qt
-brew install maxima
-brew install wxmaxima
-```
+  ```brew install gnuplot �-with-qt
+  brew install maxima
+  brew install wxmaxima
+  ```
 - Jetzt noch Maxima selbst anpassen
 ```
 Finder - Profilverzeichnis - SHIFT+CONTROL+G - .maxima führt zu diesem versteckten Verzeichnis
