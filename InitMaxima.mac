@@ -11,6 +11,8 @@ fpprintprec: 4$
 debug:false$
 keepfloat:true$
 (setf *debugger-hook* nil)$
+/* MacOS hack gnuplot Problem */
+wxplot_pngcairo:false;
 
 /* --------------- Zeichnen ----------------------------------------- */
 /* testet ob es eine Variable gibt */
