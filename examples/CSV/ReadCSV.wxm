@@ -20,12 +20,10 @@ M: ReadCSV(filename,
 
 
 /* [wxMaxima: input   start ] */
-/* Spalten zu Zeilen */
-MM: args(transpose(M))$
 /* points als [x1,x2,...], [y1,y2,...] */
 pointlist:append(
     [key = "Small points", color=blue, point_size=1,point_type=7, 
-        points_joined=true, points(MM[1], MM[2])
+        points_joined=true, points(M[1], M[2])
     ]
 )$
 

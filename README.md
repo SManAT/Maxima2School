@@ -15,7 +15,10 @@ Funktion | Beschreibung
 ------------ | -------------
 Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min bis x_max |
 Zeichne([f1(x), f2(x)], x_min, ,x_max,<br>&nbsp;&nbsp;&nbsp;y>[ymin,ymax]<br>&nbsp;&nbsp;&nbsp;filename>"Dateiname",<br>&nbsp;&nbsp;&nbsp;xlabel>"x-Achse",<br>&nbsp;&nbsp;&nbsp;ylabel>"y-Achse"<br>&nbsp;&nbsp;&nbsp;titel>"Mein Titel"<br>colors>["#aa33bb", green]<br>) | Zeichnet die gegebenen Funktionen f1 und f2 und speichert die Grafik sie als SVG Datei (Dateiname.svg) ab, wobei die Achsen beschriftet werden. Die Parameter (*filename*, *xlabel*, *ylabel*, etc) müssen korrekt geschrieben sein, ansonsten werden sie nicht akzeptiert.<br>Es können beliebig viele Funktionen in einer Liste zusammengefasst werden.<br>Farben kann man im gewohnten RGB Modell oder mit Standardnamen (blue,red,green, etc) angeben|
-ZeichnePunkte() | funktioniert wir die obigen Befehle, nur werden Punkte gezeichnet.<br>append() … Damit können mehrere Punktlisten erstellt werden|
+ZeichnePunkte()
+pointlist:append(
+    [color=blue, point_size=0.5,point_type=7, points(data)]
+) $ | funktioniert wir die obigen Befehle, nur werden Punkte gezeichnet.<br>append() … Damit können mehrere Punktlisten zusammengehängt werden|
 
 SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
@@ -53,11 +56,9 @@ M: ReadCSV("filename.csv",
     separator>",",
     skip>1
 );
-/* Spalten zu Zeilen */
-MM: args(transpose(M))$
 /* points als [x1,x2,...], [y1,y2,...] */
 pointlist:append(
-    [key = "Small points", color=blue, point_size=0,point_type=7, points_joined=true, points(MM[1], MM[2])]
+    [key = "Small points", color=blue, point_size=0,point_type=7, points_joined=true, points(M[1], M[2])]
 ) $
 ```
 

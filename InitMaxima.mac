@@ -154,7 +154,8 @@ ReadCSV(filename,[options]):=block(
     /* read the following (comma-separated) lines into matrix M */
     M : read_matrix(s, tS),
     close(s),
-    return(M)
+    /* Spalten zu Zeilen */
+    return(args(transpose(M)))
 )$
 
 /* --------------- Funktion aufstellen ------------------------------- */
