@@ -2,7 +2,7 @@ Mit MacOSX hat man mit wxmaxima das Problem, dass gnuplot (=grafische Ausgabe) n
 Diese Anleitung sollte zum Erfolg f�hren, und wurde auf High Sierra getestet.
 Ein Nachteil ist, das man Xcode installieren muss (~6GB) obwohl man es nicht ben�tigt.
 
-#Schritte
+# Schritte
 
 - AppStore installiere Xcode
 - Terminal
@@ -10,14 +10,14 @@ Ein Nachteil ist, das man Xcode installieren muss (~6GB) obwohl man es nicht ben
 - Terminal
   *xcode-select --install*
 
-    4. Terminal, Homebrew Package Manager installieren
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+- Terminal, Homebrew Package Manager installieren<br>
+  */usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"*
 
-    5. Terminal
-brew install gnuplot �-with-qt
+- Terminal<br>
+´´´brew install gnuplot �-with-qt
 brew install maxima
 brew install wxmaxima
-
+´´´
     6. Jetzt noch Maxima selbst anpassen
 Finder ? Profilverzeichnis
  ? .maxima f�hrt zu diesem versteckten Verzeichnis
