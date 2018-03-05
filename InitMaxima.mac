@@ -49,6 +49,7 @@ plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL):=block(
         ylabel=y_label,
         title=thetitle,
         grid=true,
+        tL,
         pointlist,
         user_preamble = ["
             set encoding utf8
@@ -82,8 +83,11 @@ block(
     if check_Var(labels, options)=false then  tlabels: ""
     else                                      tlabels: assoc(labels,options),
     tL:[],
-    /* jeden Label eintrag eigens als label() angeben */
-    for i: 1 while  i<=length(tlabels) do push(label(tlabels[i]), tL),
+    /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
+    for i: 1 while  i<=length(tlabels) do block(
+      push(label(tlabels[i]), tL),
+      push(color=black, tL)
+    ),
 
     /* Liste? */
     if listp(gl) then
