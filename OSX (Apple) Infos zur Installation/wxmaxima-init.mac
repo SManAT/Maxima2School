@@ -1,0 +1,2 @@
+/* MacOS hack gnuplot Problem */
+wxplot_pngcairo:false$
