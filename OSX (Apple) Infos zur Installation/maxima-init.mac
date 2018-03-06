@@ -2,4 +2,4 @@ gnuplot_command:"/usr/local/bin/gnuplot"$
 draw_command:"/usr/local/bin/gnuplot"$
 set_plot_options([gnuplot_term, qt])$
 /* MacOS hack gnuplot Problem */
-wxplot_pngcairo:false;
+wxplot_pngcairo:false$
