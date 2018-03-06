@@ -50,10 +50,7 @@ plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL):=block(
         grid=true,
         tL,
         pointlist,
-        user_preamble = ["
-            set encoding utf8
-            set terminal svg enhanced font \"Helvetica,18\"
-        "],
+        user_preamble = "set encoding utf8; set terminal svg enhanced font \"Helvetica,18\"",
         file_name = filename,
         terminal = svg
       )
@@ -79,7 +76,7 @@ block(
     else                                 they: assoc(y,options),
 
     /* Beschriftungen im Stil [ ["Name",x,y], ... ] */
-    if check_Var(labels, options)=false then  tlabels: ""
+    if check_Var(labels, options)=false then  tlabels: []
     else                                      tlabels: assoc(labels,options),
     tL:[],
     /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
@@ -109,14 +106,13 @@ block(
     ),
 
     pointlist: makelist ([color=tcolors[i], line_width=3, explicit(gl[i],x,von,bis)], i, length(gl)),
-
     plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL)
 )$
 
 ZeichnePunkte(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_label,y_label,thepath,they,thetitle],
+    [filename,x_label,y_label,thepath,they,thetitle,tL],
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then filename:"-1"
     else                                       filename: assoc(filename,options),
@@ -133,6 +129,16 @@ block(
     if check_Var(y, options)=false then  they: auto
     else                                 they: assoc(y,options),
 
+    /* Beschriftungen im Stil [ ["Name",x,y], ... ] */
+    if check_Var(labels, options)=false then  tlabels: []
+    else                                      tlabels: assoc(labels,options),
+    tL:[],
+    /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
+    for i: 1 while  i<=length(tlabels) do block(
+      push(label(tlabels[i]), tL),
+      push(color=black, tL)
+    ),
+
     /* Liste? */
     if listp(gl) then
     block(
@@ -141,7 +147,7 @@ block(
        gl: makelist (gl),
     pointlist: gl,
 
-    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename)
+    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL)
 )$
 
 /* --------------- CSV ---------------------------- */
