@@ -25,129 +25,195 @@ check_Var(test, options):=block(
 )$
 
 /* private function */
-plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL):=block(
+plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL):=block(
   load(draw),
   wxdraw2d(
-    xrange=[von,bis],
-    yrange=they,
+    xrange=[vvon,vbis],
+    yrange=vy,
     xaxis=true, yaxis=true,
-    xlabel=x_label,
-    ylabel=y_label,
-    title=thetitle,
-    tL,
-    pointlist
+    xlabel=vxlabel,
+    ylabel=vylabel,
+    title=vtitle,
+    vtL,
+    vpointlist
  ),
 
  /* Ausgabe Datei */
- if filename # "-1" then
+ if vfilename # "-1" then
       draw2d(
-        xrange=[von,bis],
-        yrange=they,
+        xrange=[vvon,vbis],
+        yrange=vy,
         xaxis=true, yaxis=true,
-        xlabel=x_label,
-        ylabel=y_label,
-        title=thetitle,
+        xlabel=vxlabel,
+        ylabel=vylabel,
+        title=vtitle,
         grid=true,
-        tL,
-        pointlist,
+        vtL,
+        vpointlist,
         user_preamble = "set encoding utf8; set terminal svg enhanced font \"Helvetica,18\"",
-        file_name = filename,
+        file_name = vfilename,
         terminal = svg
       )
 )$
 
+check_Labels(options):=block(
+  /* lokale Variable */
+  [vlabels,vtL],
+
+  /* Beschriftungen im Stil [ ["Name",x,y], ... ] */
+  if check_Var(labels, options)=false then  vlabels: []
+  else                                      vlabels: assoc(labels,options),
+  vtL:[],
+  /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
+  for i: 1 while  i<=length(vlabels) do block(
+    push(label(vlabels[i]), vtL),
+    push(color=black, vtL)
+  ),
+  return(vtL)
+)$
+
+/* Liste von Funktionen oder nur eine Funktion? */
+check_Gl(gl):=block(
+  /* lokale Variable */
+  [vgl],
+
+  /* Liste? */
+  if listp(gl) then block(
+    if length(gl)=1 then vgl: makelist(gl)
+    else vgl: gl
+  ) else vgl: makelist(gl),
+  return(vgl)
+ )$
+
+check_Colors(gl, options):=block(
+ /* lokale Variable */
+ [vcolors,blacklist],
+
+ if check_Var(colors, options)=false then block(
+   /* alle Farben sw machen */
+   vcolors: makelist (black, i, length(gl))
+ )
+ else block(
+   vcolors: assoc(colors,options),
+   /* bis zum Ende schwarz machen */
+   if(length(vcolors)<length(gl)) then block(
+     blacklist: makelist ("black", i, 1, length(gl)-length(vcolors)),
+     vcolors: append(vcolors, blacklist)
+   )
+ ),
+ return(vcolors)
+)$
+
+check_Subst(gl, options):=block(
+ /* lokale Variable */
+ [v],
+
+ if check_Var(subst, options)=false then v: []
+ else v: assoc(subst,options),
+ return(v)
+)$
+
+check_Legend(gl, options):=block(
+  /* lokale Variable */
+  [vL,blacklist],
+
+  /* Legende setzen */
+  if check_Var(legend, options)=false then block(
+    /* keine Legende alles leer machen */
+    vL: makelist ("", i, 1, length(gl))
+  )
+  else block(
+    vL: assoc(legend,options),
+    /* bis zum Ende leer machen */
+    if(length(vL)<length(gl)) then block(
+      blacklist: makelist ("", i, 1, length(gl)-length(vL)),
+      vL: append(vL, blacklist)
+    )
+  ),
+  return(vL)
+)$
+
+do_Subst(vsubst, vgl):=block(
+  /* Alle Ersetzungen durchführen */
+  /* 2er Schritte a,b  dann c,d */
+  for i: 1 step 2 thru length(vsubst) do block(
+    for k: 1 while  k<=length(vgl) do block(
+      if(i+1<=length(vsubst)) then
+        vgl[k]: subst(vsubst[i+1], vsubst[i], vgl[k])
+    )
+  ),
+  return(vgl)
+)$
+
+
+/*----------------------------------------------------------------------------*/
+
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_label,y_label,thepath,they,thetitle,tcolors,tlabels,tL],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst],
+
     /* Optionale Parameter laden bzw. setzen */
-    if check_Var(filename, options)=false then filename:"-1"
-    else                                       filename: assoc(filename,options),
-    if check_Var(xlabel, options)=false then x_label:"x-Achse"
-    else                                     x_label: assoc(xlabel,options),
+    if check_Var(filename, options)=false then vfilename:"-1"
+    else                                       vfilename: assoc(filename,options),
+    if check_Var(xlabel, options)=false then vxlabel:"x-Achse"
+    else                                     vxlabel: assoc(xlabel,options),
 
-    if check_Var(ylabel, options)=false then y_label:"y-Achse"
-    else                                     y_label: assoc(ylabel,options),
+    if check_Var(ylabel, options)=false then vylabel:"y-Achse"
+    else                                     vylabel: assoc(ylabel,options),
 
-    if check_Var(title, options)=false then  thetitle:""
-    else                                     thetitle: assoc(title,options),
+    if check_Var(title, options)=false then  vtitle:""
+    else                                     vtitle: assoc(title,options),
 
-    if check_Var(y, options)=false then  they: auto
-    else                                 they: assoc(y,options),
+    if check_Var(titel, options)=false then  vtitle:""
+    else                                     vtitle: assoc(titel,options),
 
-    /* Beschriftungen im Stil [ ["Name",x,y], ... ] */
-    if check_Var(labels, options)=false then  tlabels: []
-    else                                      tlabels: assoc(labels,options),
-    tL:[],
-    /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
-    for i: 1 while  i<=length(tlabels) do block(
-      push(label(tlabels[i]), tL),
-      push(color=black, tL)
-    ),
+    if check_Var(y, options)=false then  vy: auto
+    else                                 vy: assoc(y,options),
 
-    /* Liste? */
-    if listp(gl) then
-    block(
-       if length(gl)=1 then gl: makelist (gl)
-    ) else
-       gl: makelist (gl),
+    /* check all Parameters --------------------------------------------------*/
+    vgl: check_Gl(gl),
+    vtL:check_Labels(options),
+    vcolors: check_Colors(gl, options),
+    vL: check_Legend(gl, options),
+    vsubst: check_Subst(gl, options),
+    vgl: do_Subst(vsubst, vgl),
 
-    if check_Var(colors, options)=false then block(
-      /* alle Farben sw machen */
-      tcolors: makelist (black, i, length(gl))
-    )
-    else block(
-      tcolors: assoc(colors,options),
-      /* bis zum Ende schwarz machen */
-      if(length(tcolors)<length(gl)) then block(
-        blacklist: makelist ("black", i, length(tcolors), length(gl)-length(tcolors)+1),
-        tcolors: append(tcolors, blacklist)
-      )
-    ),
+    vpointlist: makelist ([key=vL[i], color=vcolors[i], line_width=3, explicit(vgl[i],x,von,bis)], i, length(vgl)),
 
-    pointlist: makelist ([color=tcolors[i], line_width=3, explicit(gl[i],x,von,bis)], i, length(gl)),
-    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL)
+    plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
 )$
 
 ZeichnePunkte(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [filename,x_label,y_label,thepath,they,thetitle,tL],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vtL,vgl],
+
     /* Optionale Parameter laden bzw. setzen */
-    if check_Var(filename, options)=false then filename:"-1"
-    else                                       filename: assoc(filename,options),
+    if check_Var(filename, options)=false then vfilename:"-1"
+    else                                       vfilename: assoc(filename,options),
 
-    if check_Var(xlabel, options)=false then x_label:"x-Achse"
-    else                                     x_label: assoc(xlabel,options),
+    if check_Var(xlabel, options)=false then vxlabel:"x-Achse"
+    else                                     vxlabel: assoc(xlabel,options),
 
-    if check_Var(ylabel, options)=false then y_label:"y-Achse"
-    else                                     y_label: assoc(ylabel,options),
+    if check_Var(ylabel, options)=false then vylabel:"y-Achse"
+    else                                     vylabel: assoc(ylabel,options),
 
-    if check_Var(title, options)=false then  thetitle:""
-    else                                     thetitle: assoc(title,options),
+    if check_Var(title, options)=false then  vtitle:""
+    else                                     vtitle: assoc(title,options),
 
-    if check_Var(y, options)=false then  they: auto
-    else                                 they: assoc(y,options),
+    if check_Var(titel, options)=false then  vtitle:""
+    else                                     vtitle: assoc(titel,options),
 
-    /* Beschriftungen im Stil [ ["Name",x,y], ... ] */
-    if check_Var(labels, options)=false then  tlabels: []
-    else                                      tlabels: assoc(labels,options),
-    tL:[],
-    /* jeden Label Eintrag eigens als label() angeben mit Farbe black */
-    for i: 1 while  i<=length(tlabels) do block(
-      push(label(tlabels[i]), tL),
-      push(color=black, tL)
-    ),
+    if check_Var(y, options)=false then  vy: auto
+    else                                 vy: assoc(y,options),
 
-    /* Liste? */
-    if listp(gl) then
-    block(
-       if length(gl)=1 then gl: makelist (gl)
-    ) else
-       gl: makelist (gl),
-    pointlist: gl,
+    /* check all Parameters --------------------------------------------------*/
+    vgl: check_Gl(gl),
+    vtL:check_Labels(options),
 
-    plotall(von,bis,they,x_label,y_label,thetitle,pointlist,filename,tL)
+    vpointlist:vgl,
+    plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
 )$
 
 /* --------------- CSV ---------------------------- */
