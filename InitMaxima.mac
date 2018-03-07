@@ -104,6 +104,7 @@ check_Colors(gl, options):=block(
  return(vcolors)
 )$
 
+<<<<<<< HEAD
 check_Subst(gl, options):=block(
  /* lokale Variable */
  [v],
@@ -112,6 +113,8 @@ check_Subst(gl, options):=block(
  else v: assoc(subst,options),
  return(v)
 )$
+=======
+>>>>>>> 158f3753868ee3c84890e84c718cc7a3d1cbf7f9
 
 check_Legend(gl, options):=block(
   /* lokale Variable */
@@ -133,6 +136,7 @@ check_Legend(gl, options):=block(
   return(vL)
 )$
 
+<<<<<<< HEAD
 do_Subst(vsubst, vgl):=block(
   /* Alle Ersetzungen durchführen */
   /* 2er Schritte a,b  dann c,d */
@@ -145,13 +149,19 @@ do_Subst(vsubst, vgl):=block(
   return(vgl)
 )$
 
+=======
+>>>>>>> 158f3753868ee3c84890e84c718cc7a3d1cbf7f9
 
 /*----------------------------------------------------------------------------*/
 
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
+<<<<<<< HEAD
     [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst],
+=======
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl],
+>>>>>>> 158f3753868ee3c84890e84c718cc7a3d1cbf7f9
 
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then vfilename:"-1"
@@ -167,6 +177,7 @@ block(
 
     if check_Var(titel, options)=false then  vtitle:""
     else                                     vtitle: assoc(titel,options),
+<<<<<<< HEAD
 
     if check_Var(y, options)=false then  vy: auto
     else                                 vy: assoc(y,options),
@@ -179,6 +190,18 @@ block(
     vsubst: check_Subst(gl, options),
     vgl: do_Subst(vsubst, vgl),
 
+=======
+
+    if check_Var(y, options)=false then  vy: auto
+    else                                 vy: assoc(y,options),
+
+    /* check all Parameters --------------------------------------------------*/
+    vgl: check_Gl(gl),
+    vtL:check_Labels(options),
+    vcolors: check_Colors(gl, options),
+    vL: check_Legend(gl, options),
+
+>>>>>>> 158f3753868ee3c84890e84c718cc7a3d1cbf7f9
     vpointlist: makelist ([key=vL[i], color=vcolors[i], line_width=3, explicit(vgl[i],x,von,bis)], i, length(vgl)),
 
     plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
