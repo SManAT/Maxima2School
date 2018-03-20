@@ -51,14 +51,14 @@ ReadCSV(filename,[options]) | Liest eine CSV Datei ein und gibt eine Matrix zurÃ
 
 **Beispiel**
 ```
-M: ReadCSV("filename.csv",
+Punkte: ReadCSV("filename.csv",
     separator>",",
     skip>1
 );
-/* points als [x1,x2,...], [y1,y2,...] */
-pointlist:append(
-    [key = "Small points", color=blue, point_size=0,point_type=7, points_joined=true, points(M[1], M[2])]
-) $
+Zeichne(
+    Punkte,0,10,
+    legend>["CSV Datei"]
+)$
 ```
 
 ### Funktion aus zwei Punkten erstellen
