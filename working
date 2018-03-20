@@ -1,0 +1,9 @@
+if pts=true then block(
+vpointlist: gl
+)else block(
+  for i: 1 while  i<=length(vgl) do
+    vpointlist: append(vpointlist,
+      [key=vL[i], color=vcolors[i], line_width=3,explicit(vgl[i],x,von,bis)]
+  )
+),
+plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)

@@ -6,31 +6,27 @@ Wertetabelle aus CSV Datei
 
 
 /* [wxMaxima: input   start ] */
-batchload("../../InitMaxima.mac");
+batchload("../../InitMaxima.mac")$
 filename: "Wertetabelle.csv"$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-M: ReadCSV(filename,
+Punkte: ReadCSV(filename,
     skip>1
 );
 /* [wxMaxima: input   end   ] */
 
 
-/* [wxMaxima: input   start ] */
-pointlist:append(
-    [key = "CSV Datei", color=blue, point_size=1,point_type=7, 
-        points_joined=true, points(M[1], M[2])
-    ]
-)$
-/* [wxMaxima: input   end   ] */
+/* [wxMaxima: comment start ]
+Punkte sind OK
+   [wxMaxima: comment end   ] */
 
 
 /* [wxMaxima: input   start ] */
-ZeichnePunkte(
-    pointlist,0,5,
-    y>[0,14]
+Zeichne(
+    Punkte,0,10,
+    legend>["CSV Datei"]
 )$
 /* [wxMaxima: input   end   ] */
 
