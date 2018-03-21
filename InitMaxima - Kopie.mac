@@ -55,7 +55,7 @@ plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL):=block(
         terminal = svg
       )
 )$
-
+/*----------------------------------------------------------------------------*/
 check_Labels(options):=block(
   /* lokale Variable */
   [vlabels,vtL],
@@ -71,7 +71,7 @@ check_Labels(options):=block(
   ),
   return(vtL)
 )$
-
+/*----------------------------------------------------------------------------*/
 /* Liste von Funktionen oder nur eine Funktion? */
 check_Gl(gl):=block(
   /* lokale Variable */
@@ -84,7 +84,7 @@ check_Gl(gl):=block(
   ) else vgl: makelist(gl),
   return(vgl)
  )$
-
+/*----------------------------------------------------------------------------*/
 check_Colors(gl, options):=block(
  /* lokale Variable */
  [vcolors,blacklist],
@@ -103,7 +103,7 @@ check_Colors(gl, options):=block(
  ),
  return(vcolors)
 )$
-
+/*----------------------------------------------------------------------------*/
 check_Subst(gl, options):=block(
  /* lokale Variable */
  [v],
@@ -112,7 +112,7 @@ check_Subst(gl, options):=block(
  else v: assoc(subst,options),
  return(v)
 )$
-
+/*----------------------------------------------------------------------------*/
 check_Legend(gl, options):=block(
   /* lokale Variable */
   [vL,blacklist],
@@ -132,7 +132,7 @@ check_Legend(gl, options):=block(
   ),
   return(vL)
 )$
-
+/*----------------------------------------------------------------------------*/
 do_Subst(vsubst, vgl):=block(
   /* Alle Ersetzungen durchführen */
   /* 2er Schritte a,b  dann c,d */
@@ -144,14 +144,33 @@ do_Subst(vsubst, vgl):=block(
   ),
   return(vgl)
 )$
+/*----------------------------------------------------------------------------*/
+/* liegen einzelne Punkte vor? */
+/* liegen einzelne Punkte vor? */
+is_PointList(vgl):=block(
+  [ispointlist],
+  ispointlist:false,
 
+  /* Einzelfkt */
+  if(listp(vgl)) then block(
+      for i: 1 while  i<=length(vgl) do block(
+      /* teste Element ob Punktkoordinaten vorliegen*/
+      if listp(vgl[i]) then block(
+        /* Pkt haben x,y Koord=Liste */
+        /* entweder EinzelpunktListe oder Liste von Punktlisten */
+        if length(vgl[i])=2 or length(first(vgl[i]))=2 then ispointlist:true
+      )
+    )
+  ),
+  return(ispointlist)
+)$
 
 /*----------------------------------------------------------------------------*/
 
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist],
 
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then vfilename:"-1"
@@ -178,47 +197,29 @@ block(
     vL: check_Legend(gl, options),
     vsubst: check_Subst(gl, options),
     vgl: do_Subst(vsubst, vgl),
+    isptlist: is_PointList(gl),
 
-    vpointlist: makelist ([key=vL[i], color=vcolors[i], line_width=3, explicit(vgl[i],x,von,bis)], i, length(vgl)),
+    vpointlist:[],
 
-    plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
-)$
+    if isptlist then block(
+      /* nur eine Punktliste > first = Punkt, ansonsten Liste*/
+      if length(first(vgl))=2 then block(
+        vpointlist: [[key=first(vL), color=first(vcolors), point_size=1.5,point_type=7, points_joined=true, points(vgl)]]
+      )else
+        for i: 1 while  i<=length(vgl) do block(
+          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], point_size=1.5,point_type=7, points_joined=true, points(vgl[i])])
+        )
+    )else block(
+      for i: 1 while  i<=length(vgl) do
+        vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=3,explicit(vgl[i],x,von,bis)])
+    ),
 
-ZeichnePunkte(gl,von,bis,[options]):=
-block(
-    /* lokale Variable */
-    [vfilename,vxlabel,vylabel,vy,vtitle,vtL,vgl],
-
-    /* Optionale Parameter laden bzw. setzen */
-    if check_Var(filename, options)=false then vfilename:"-1"
-    else                                       vfilename: assoc(filename,options),
-
-    if check_Var(xlabel, options)=false then vxlabel:"x-Achse"
-    else                                     vxlabel: assoc(xlabel,options),
-
-    if check_Var(ylabel, options)=false then vylabel:"y-Achse"
-    else                                     vylabel: assoc(ylabel,options),
-
-    if check_Var(title, options)=false then  vtitle:""
-    else                                     vtitle: assoc(title,options),
-
-    if check_Var(titel, options)=false then  vtitle:""
-    else                                     vtitle: assoc(titel,options),
-
-    if check_Var(y, options)=false then  vy: auto
-    else                                 vy: assoc(y,options),
-
-    /* check all Parameters --------------------------------------------------*/
-    vgl: check_Gl(gl),
-    vtL:check_Labels(options),
-
-    vpointlist:vgl,
     plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
 )$
 
 /* --------------- CSV ---------------------------- */
 ReadCSV(filename,[options]):=block(
-    [s,M,i,tseparator,tskip,tS],
+    [s,M,i,tseparator,tskip,tS,pkt,spalte1,spalte2],
     if check_Var(separator, options)=false then tS: 'semicolon
     else block(
         tseparator: assoc(separator,options),
@@ -238,7 +239,15 @@ ReadCSV(filename,[options]):=block(
     M : read_matrix(s, tS),
     close(s),
     /* Spalten zu Zeilen */
-    return(args(transpose(M)))
+    M: args(transpose(M)),
+    /* Punkte berechnen [[x1,y1], [x2,y2] ... ] */
+    spalte1: M[1],
+    spalte2: M[2],
+
+    pkt:[],
+    for i: 1 while  i<length(spalte1) do
+      push([spalte1[i], spalte2[i] ], pkt),
+    return(pkt)
 )$
 
 /* --------------- Funktion aufstellen ------------------------------- */
