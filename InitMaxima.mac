@@ -104,6 +104,25 @@ check_Colors(gl, options):=block(
  return(vcolors)
 )$
 /*----------------------------------------------------------------------------*/
+check_Width(gl, options):=block(
+ /* lokale Variable */
+ [vwidth,blacklist],
+
+ if check_Var(width, options)=false then block(
+   /* alle Linien Stärken 3 machen */
+   vwidth: makelist (3, i, length(gl))
+ )
+ else block(
+   vwidth: assoc(width,options),
+   /* bis zum Ende width 3 machen */
+   if(length(vwidth)<length(gl)) then block(
+     blacklist: makelist (3, i, 1, length(gl)-length(vwidth)),
+     vwidth: append(vwidth, blacklist)
+   )
+ ),
+ return(vwidth)
+)$
+/*----------------------------------------------------------------------------*/
 check_Subst(gl, options):=block(
  /* lokale Variable */
  [v],
@@ -194,6 +213,7 @@ block(
     vgl: check_Gl(gl),
     vtL:check_Labels(options),
     vcolors: check_Colors(gl, options),
+    vwidth: check_Width(gl, options),
     vL: check_Legend(gl, options),
     vsubst: check_Subst(gl, options),
     vgl: do_Subst(vsubst, vgl),
@@ -201,22 +221,19 @@ block(
     vpointlist:[],
     /* nur eine Punktliste mind 2 Punkte hintereinander, ansonsten mehrer PktListen oder Fkt */
     if length(first(vgl))=2 and length(second(vgl))=2 then block(
-    print("OOO",vgl),
-      vpointlist: append(vpointlist, [key=vL[1], color=vcolors[1], point_size=1.5,point_type=7, points_joined=true, points(vgl)])
+      vpointlist: append(vpointlist, [key=vL[1], color=vcolors[1], point_size=1.5,point_type=7,line_width=vwidth[i],points_joined=true, points(vgl)])
     )
     else
       for i: 1 while  i<=length(vgl) do block(
         /* Punktliste */
         if is_PointList(vgl[i]) then
-          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], point_size=1.5,point_type=7, points_joined=true, points(vgl[i])])
+          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], point_size=1.5,point_type=7,line_width=vwidth[i],points_joined=true, points(vgl[i])])
         /* Funktion explizit */
         else
-          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=3,explicit(vgl[i],x,von,bis)])
+          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
       ),
 
     plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
-
-
 )$
 
 /* --------------- CSV ---------------------------- */
