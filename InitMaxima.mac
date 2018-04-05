@@ -220,8 +220,9 @@ block(
 
     vpointlist:[],
     /* nur eine Punktliste mind 2 Punkte hintereinander, ansonsten mehrer PktListen oder Fkt */
-    if length(first(vgl))=2 and length(second(vgl))=2 then block(
-      vpointlist: append(vpointlist, [key=vL[1], color=vcolors[1], point_size=1.5,point_type=7,line_width=vwidth[i],points_joined=true, points(vgl)])
+    /* muss eine Liste sein */
+    if listp(first(vgl)) and listp(second(vgl)) and length(first(vgl))=2 and length(second(vgl))=2 then block(
+      vpointlist: append(vpointlist, [key=vL[1], color=vcolors[1], point_size=1.5,point_type=7,line_width=vwidth[1],points_joined=true, points(vgl)])
     )
     else
       for i: 1 while  i<=length(vgl) do block(
