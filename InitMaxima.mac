@@ -280,3 +280,19 @@ block(
         subst ([a=rhs(erg[1][1]), b=rhs(erg[1][2])], f)
     )
 )$
+
+/* --------------- Vektoren ---------------------------- */
+getX(v):=block(
+  if listp(v) and length(v)>0 then return(v[1])
+  else error("Kann xKoordinate nicht ausgeben, ist das eine Vektor?")
+)$
+
+getY(v):=block(
+  if listp(v) and length(v)>1 then return(v[2])
+  else error("Kann yKoordinate nicht ausgeben, ist das eine Vektor?")
+)$
+
+getZ(v):=block(
+  if listp(v) and length(v)>2 then return(v[3])
+  else error("Kann zKoordinate nicht ausgeben, ist das eine Vektor?")
+)$
