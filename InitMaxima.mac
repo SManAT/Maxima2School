@@ -296,3 +296,8 @@ getZ(v):=block(
   if listp(v) and length(v)>2 then return(v[3])
   else error("Kann zKoordinate nicht ausgeben, ist das eine Vektor?")
 )$
+
+/* --------------- Tools ---------------------------- */
+
+toRad(α):=α*π/180$
+toGrad(α):=α*180/π$
