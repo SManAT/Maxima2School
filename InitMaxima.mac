@@ -88,10 +88,10 @@ check_Gl(gl):=block(
 check_Colors(gl, options):=block(
  /* lokale Variable */
  [vcolors,blacklist],
-
  if check_Var(colors, options)=false then block(
    /* alle Farben sw machen */
-   vcolors: makelist (black, i, length(gl))
+   if listp(gl) then vcolors: makelist (black, i, length(gl))
+   else              vcolors: makelist (black, i, 1)
  )
  else block(
    vcolors: assoc(colors,options),
@@ -110,7 +110,8 @@ check_Width(gl, options):=block(
 
  if check_Var(width, options)=false then block(
    /* alle Linien Stärken 3 machen */
-   vwidth: makelist (3, i, length(gl))
+   if listp(gl) then vwidth: makelist (3, i, length(gl))
+   else              vwidth: makelist (3, i, 1)
  )
  else block(
    vwidth: assoc(width,options),
@@ -139,7 +140,8 @@ check_Legend(gl, options):=block(
   /* Legende setzen */
   if check_Var(legend, options)=false then block(
     /* keine Legende alles leer machen */
-    vL: makelist ("", i, 1, length(gl))
+    if listp(gl) then vL: makelist ("", i, 1, length(gl))
+    else              vL: makelist ("", i, 1, 1)
   )
   else block(
     vL: assoc(legend,options),
@@ -208,7 +210,6 @@ block(
 
     if check_Var(y, options)=false then  vy: auto
     else                                 vy: assoc(y,options),
-
     /* check all Parameters --------------------------------------------------*/
     vgl: check_Gl(gl),
     vtL:check_Labels(options),
