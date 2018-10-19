@@ -12,6 +12,11 @@ debug:false$
 keepfloat:true$
 (setf *debugger-hook* nil)$
 
+/* --------------- Hilfsfunktionen------------------------------------ */
+
+ln(x):=float(log(x)/log(%e))$
+lg(x):=float(log(x)/log(10))$
+
 
 /* --------------- Zeichnen ----------------------------------------- */
 /* testet ob es eine Variable gibt */
