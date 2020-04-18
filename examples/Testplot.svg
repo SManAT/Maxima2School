@@ -7,7 +7,7 @@
 >
 
 <title>Gnuplot</title>
-<desc>Produced by GNUPLOT 5.2 patchlevel 4 </desc>
+<desc>Produced by GNUPLOT 5.2 patchlevel 7 </desc>
 
 <g id="gnuplot_canvas">
 
@@ -211,12 +211,12 @@
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='black'  d='M96.3,81.1 L96.3,393.6 L548.6,393.6 L548.6,81.1 L96.3,81.1 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(24.7,237.4) rotate(270)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
+	<g transform="translate(38.2,237.4) rotate(270)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
 		<text><tspan font-family="Helvetica" >y-Achse</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(579.6,237.4) rotate(270)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
+	<g transform="translate(561.1,237.4) rotate(270)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
 		<text></text>
 	</g>
 </g>
@@ -229,6 +229,8 @@
 	<g transform="translate(322.4,46.5)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
 		<text><tspan font-family="Helvetica" >Maxima2School</tspan></text>
 	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(322.4,87.0)" stroke="none" fill="black" font-family="Helvetica" font-size="18.00"  text-anchor="middle">
 		<text></text>
 	</g>
