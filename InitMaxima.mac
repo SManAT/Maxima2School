@@ -172,7 +172,7 @@ do_Subst(vsubst, vgl):=block(
 )$
 /*----------------------------------------------------------------------------*/
 /* liegen einzelne Punkte vor? */
-/* liegen einzelne Punkte vor? */
+/* können auch Rechtecke sein */
 is_PointList(vgl):=block(
   [ispointlist],
   ispointlist:false,
@@ -196,7 +196,7 @@ is_PointList(vgl):=block(
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist,vbars],
 
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then vfilename:"-1"
@@ -215,6 +215,8 @@ block(
 
     if check_Var(y, options)=false then  vy: auto
     else                                 vy: assoc(y,options),
+    if check_Var(bars, options)=false then  vbars: 0
+    else                                    vbars: 1,
     /* check all Parameters --------------------------------------------------*/
     vgl: check_Gl(gl),
     vtL:check_Labels(options),
@@ -236,8 +238,12 @@ block(
         if is_PointList(vgl[i]) then
           vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], point_size=1.5,point_type=7,line_width=vwidth[i],points_joined=true, points(vgl[i])])
         /* Funktion explizit */
-        else
-          vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
+        else block(
+          if vbars=1 then
+            vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],vgl[i]])
+          else
+            vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
+        )
       ),
 
     plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
