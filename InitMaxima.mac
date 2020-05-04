@@ -240,7 +240,7 @@ block(
         /* Funktion explizit */
         else block(
           if vbars=1 then
-            vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],vgl[i]])
+            vpointlist: append(vpointlist, [key=vL[i], line_width=vwidth[i],vgl[i]])
           else
             vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
         )
