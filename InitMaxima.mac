@@ -196,7 +196,7 @@ is_PointList(vgl):=block(
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist,vbars],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist,vbars, vparametric],
 
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then vfilename:"-1"
@@ -217,6 +217,8 @@ block(
     else                                 vy: assoc(y,options),
     if check_Var(bars, options)=false then  vbars: 0
     else                                    vbars: 1,
+    if check_Var(parametric, options)=false then  vparametric: 0
+    else                                          vparametric: 1,
     /* check all Parameters --------------------------------------------------*/
     vgl: check_Gl(gl),
     vtL:check_Labels(options),
@@ -241,12 +243,19 @@ block(
         else block(
           if vbars=1 then
             vpointlist: append(vpointlist, [key=vL[i], line_width=vwidth[i],vgl[i]])
-          else
-            vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
+          else block(
+          display(vparametric),
+            if vparametric=1 then block(
+              /* Parametric Plot */
+              display(vgl[i]),
+              vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],vgl[i]])
+            )else
+              vpointlist: append(vpointlist, [key=vL[i], color=vcolors[i], line_width=vwidth[i],explicit(vgl[i],x,von,bis)])
+          )
         )
       ),
+      plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
 
-    plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
 )$
 
 /* --------------- CSV ---------------------------- */

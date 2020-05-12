@@ -17,6 +17,9 @@ Zeichne(f(x), x_min, ,x_max) | Zeichnet die gegebene Funktion im Intervall x_min
 Zeichne([f1(x), f2(x)], x_min, ,x_max,<br>&nbsp;&nbsp;y>[ymin,ymax],<br>&nbsp;&nbsp;filename>"Dateiname",<br>&nbsp;&nbsp;xlabel>"x-Achse",<br>&nbsp;&nbsp;ylabel>"y-Achse",<br>&nbsp;&nbsp;titel>"Mein Titel",<br>&nbsp;&nbsp;colors>["#aa33bb", green],<br>&nbsp;&nbsp;width>[2, 4, 5],<br>&nbsp;&nbsp;labels>[<br>&nbsp;&nbsp;&nbsp;&nbsp;["Bars",1,1],<br>&nbsp;&nbsp;&nbsp;&nbsp;["Points and Polygon",2,1],<br>&nbsp;&nbsp;]<br>&nbsp;&nbsp;legend>["Kurve1", "Kurve2"],<br>&nbsp;&nbsp;subst>[a,b,c,d]<br>) | Zeichnet die gegebenen Funktionen f1 und f2 und speichert die Grafik sie als SVG Datei (Dateiname.svg) ab, wobei die Achsen beschriftet werden. Die Parameter (*filename*, *xlabel*, *ylabel*, etc) müssen korrekt geschrieben sein, ansonsten werden sie nicht akzeptiert.<br><br>Es können beliebig viele Funktionen in einer Liste zusammengefasst werden.<br>Farben kann man im gewohnten RGB Modell oder mit Standardnamen (blue,red,green, etc) angeben<br><br>*labels* setzt eine Beschriftung an die Koordinaten ["Text", x, y]<br>*width* setzt die Stärke der Linien, Default: 3<br>*legend* fügt eine Legende ein<br>*subst* ersetzt Variable a>b, c>d usw.|
 Zeichne([Punkte, Punkte2], x_min, x_max); | funktioniert mit den obigen Parametern, nur werden Punkte gezeichnet.|
 Zeichne(<br>[Rectangles], x_min, x_max<br>bars>1<br>); | zeichnet eine Liste von rectangles[]|
+|
+Zeichne(<br>[Rectangles], x_min, x_max<br>bars>1<br>); | zeichnet eine Liste von rectangles[]|
+|
 
 SVG Dateien sind skalierbar ohne Qualitätsverlust. Libreoffice kann damit umgehen.
 
@@ -51,6 +54,15 @@ pointlist;
 Zeichne(
     pointlist , 0, 10,
     bars>1
+)$
+
+functions:append(
+    makelist(parametric(x, 2*x, x,5,10)
+) $
+pointlist;
+Zeichne(
+    functions , 0, 10,
+    parametric>1
 )$
 ```
 ### CSV Dateien
