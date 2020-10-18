@@ -229,7 +229,7 @@ block(
     vgl: do_Subst(vsubst, vgl),
 
     vpointlist:[],
-    /* nur eine Punktliste mind 2 Punkte hintereinander, ansonsten mehrer PktListen oder Fkt */
+    /* nur eine Punktliste mind 2 Punkte hintereinander, ansonsten mehrere PktListen oder Fkt */
     /* muss eine Liste sein */
     if listp(first(vgl)) and listp(second(vgl)) and length(first(vgl))=2 and length(second(vgl))=2 then block(
       vpointlist: append(vpointlist, [key=vL[1], color=vcolors[1], point_size=1.5,point_type=7,line_width=vwidth[1],points_joined=true, points(vgl)])
