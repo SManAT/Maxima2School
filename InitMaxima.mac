@@ -256,39 +256,6 @@ block(
 
 )$
 
-/* --------------- CSV ---------------------------- */
-ReadCSV(filename,[options]):=block(
-    [s,M,i,tseparator,tskip,tS,pkt,spalte1,spalte2],
-    if check_Var(separator, options)=false then tS: 'semicolon
-    else block(
-        tseparator: assoc(separator,options),
-        if tseparator="," then tS: 'comma,
-        if tseparator="|" then tS: 'pipe,
-        if tseparator=";" then tS: 'semicolon,
-        if tseparator=" " then tS: 'space
-    ),
-
-    if check_Var(skip, options)=false then tskip: 0
-    else                                   tskip: assoc(skip,options),
-
-    s : openr(filename),
-    /* skip lines */
-    for i: 0 while  i<tskip do readline(s),
-    /* read the following (comma-separated) lines into matrix M */
-    M : read_matrix(s, tS),
-    close(s),
-    /* Spalten zu Zeilen */
-    M: args(transpose(M)),
-    /* Punkte berechnen [[x1,y1], [x2,y2] ... ] */
-    spalte1: M[1],
-    spalte2: M[2],
-
-    pkt:[],
-    for i: 1 while  i<length(spalte1) do
-      push([spalte1[i], spalte2[i] ], pkt),
-    return(pkt)
-)$
-
 /* --------------- Funktion aufstellen ------------------------------- */
 CreateFunktion(p1,p2, f):=
 block(
