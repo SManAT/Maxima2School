@@ -11,6 +11,7 @@ fpprintprec: 4$
 debug:false$
 keepfloat:true$
 (setf *debugger-hook* nil)$
+load(draw)$
 
 /* --------------- Hilfsfunktionen------------------------------------ */
 
@@ -30,8 +31,7 @@ check_Var(test, options):=block(
 )$
 
 /* private function */
-plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL):=block(
-  load(draw),
+plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL,vxtics):=block(
   wxdraw2d(
     xrange=[vvon,vbis],
     yrange=vy,
@@ -40,6 +40,7 @@ plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL):=block(
     ylabel=vylabel,
     title=vtitle,
     vtL,
+    xtics=vxtics,
     vpointlist
  ),
 
@@ -53,6 +54,7 @@ plotall(vvon,vbis,vy,vxlabel,vylabel,vtitle,vpointlist,vfilename,vtL):=block(
         ylabel=vylabel,
         title=vtitle,
         grid=true,
+        xtics=vxtics,
         vtL,
         vpointlist,
         user_preamble = "set encoding utf8; set terminal svg enhanced font \"Helvetica,18\"",
@@ -75,6 +77,14 @@ check_Labels(options):=block(
     push(color=black, vtL)
   ),
   return(vtL)
+)$
+
+/* Liste von [Text, xWert] */
+check_xTics(options):=block(
+  [vxtics],
+  if check_Var(xtics, options)=false then  vxtics: []
+  else                                     vxtics: assoc(xtics,options),
+  return(vxtics)
 )$
 /*----------------------------------------------------------------------------*/
 /* Liste von Funktionen oder nur eine Funktion? */
@@ -196,7 +206,7 @@ is_PointList(vgl):=block(
 Zeichne(gl,von,bis,[options]):=
 block(
     /* lokale Variable */
-    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist,vbars, vparametric],
+    [vfilename,vxlabel,vylabel,vy,vtitle,vcolors,vtL,vlegend,vL,vgl,vsubst,isptlist,vbars, vparametric, vxtics],
 
     /* Optionale Parameter laden bzw. setzen */
     if check_Var(filename, options)=false then vfilename:"-1"
@@ -221,12 +231,13 @@ block(
     else                                          vparametric: 1,
     /* check all Parameters --------------------------------------------------*/
     vgl: check_Gl(gl),
-    vtL:check_Labels(options),
+    vtL: check_Labels(options),
     vcolors: check_Colors(gl, options),
     vwidth: check_Width(gl, options),
     vL: check_Legend(gl, options),
     vsubst: check_Subst(gl, options),
     vgl: do_Subst(vsubst, vgl),
+    vxtics: check_xTics(options),
 
     vpointlist:[],
     /* nur eine Punktliste mind 2 Punkte hintereinander, ansonsten mehrere PktListen oder Fkt */
@@ -252,7 +263,7 @@ block(
           )
         )
       ),
-      plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL)
+      plotall(von, bis, vy, vxlabel, vylabel, vtitle, vpointlist, vfilename, vtL, vxtics)
 
 )$
 
