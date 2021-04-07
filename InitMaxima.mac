@@ -82,7 +82,7 @@ check_Labels(options):=block(
 /* Liste von [Text, xWert] */
 check_xTics(options):=block(
   [vxtics],
-  if check_Var(xtics, options)=false then  vxtics: false
+  if check_Var(xtics, options)=false then  vxtics: true
   else                                     vxtics: assoc(xtics,options),
   return(vxtics)
 )$
